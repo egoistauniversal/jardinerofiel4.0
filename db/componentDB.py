@@ -26,7 +26,7 @@ class ComponentDB(QtCore.QObject):
         except sqlite3.Error, e:
             self._print_alert_message(e.args[0], self.__class__.__name__, self.create_table.__name__)
 
-    def read_structure(self, model):
+    def read_structure(self, model, serial):
         from db import groupNodeDB
         from actions import groupActions, componentActions
 
@@ -43,18 +43,18 @@ class ComponentDB(QtCore.QObject):
                                                                      QtCore.QString(row[2]),
                                                                      QtCore.QString(row[3]),
                                                                      QtCore.QString(row[4]),
-                                                                     row[5], row[6])
+                                                                     row[5], row[6], serial)
                 elif row[2] == '2':
                     componentActions.ComponentActions.add_timer_node(_index, row[0], row[1],
                                                                      QtCore.QString(row[2]),
                                                                      QtCore.QString(row[3]),
                                                                      QtCore.QString(row[4]),
-                                                                     row[5], row[6])
+                                                                     row[5], row[6], serial)
                 elif row[2] == '3':
                     componentActions.ComponentActions.add_pulsar_node(_index, row[0], row[1],
                                                                       QtCore.QString(row[2]),
                                                                       QtCore.QString(row[3]),
-                                                                      row[5], row[6])
+                                                                      row[5], row[6], serial)
 
     def select_row_by_group_id(self, group_id):
         _rows = None

@@ -44,7 +44,6 @@ class Browser(QtGui.QWidget):
 
     def print_alert_message(self, text):
         _myDateTime = QtCore.QDateTime().currentDateTime()
-
         output = '[' + _myDateTime.toString("dd-MM-yyyy HH:mm:ss") + '] ' + text
         self._browser.append('<font color="#C55450">' + output + '</font>')
         self._linesCounter += 1

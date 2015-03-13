@@ -3,15 +3,18 @@ from StandardItems import componentStandardItems
 
 
 class ComponentActions(QtCore.QObject):
+    def __init__(self):
+        QtCore.QObject.__init__(self)
+
 
     @staticmethod
-    def add_clock_node(index, c_id, c_name, c_type, c_time_on, c_time_off, c_pin, c_active):
+    def add_clock_node(index, c_id, c_name, c_type, c_time_on, c_time_off, c_pin, c_active, serial):
         _nameItem = componentStandardItems.StandardItemNameID(c_id, c_name)
         _timeTypeItem = componentStandardItems.StandardItemType(c_type)
         _dateTimeOn = componentStandardItems.StandardItemDateTime(c_time_on)
         _dateTimeOff = componentStandardItems.StandardItemDateTime(c_time_off)
         _timeSpanItem = componentStandardItems.StandardItemClockDateTimeSpan()
-        _stateItem = componentStandardItems.StandardItemState()
+        _stateItem = componentStandardItems.StandardItemState(serial)
         _pinItem = QtGui.QStandardItem(c_pin)
         _activeItem = componentStandardItems.StandardItemActive(c_active)
 
@@ -43,13 +46,13 @@ class ComponentActions(QtCore.QObject):
     # ------------------------------------------TIMER-----------------------------------------------
 
     @staticmethod
-    def add_timer_node(index, c_id, c_name, c_type, c_time_on, c_time_off, c_pin, c_active):
+    def add_timer_node(index, c_id, c_name, c_type, c_time_on, c_time_off, c_pin, c_active, serial):
         _nameItem = componentStandardItems.StandardItemNameID(c_id, c_name)
         _timeTypeItem = componentStandardItems.StandardItemType(c_type)
         _timeOn = componentStandardItems.StandardItemTime(c_time_on)
         _timeOff = componentStandardItems.StandardItemTime(c_time_off)
         _timeSpanItem = componentStandardItems.StandardItemTimerTimeSpan()
-        _stateItem = componentStandardItems.StandardItemState()
+        _stateItem = componentStandardItems.StandardItemState(serial)
         _pinItem = QtGui.QStandardItem(c_pin)
         _activeItem = componentStandardItems.StandardItemActive(c_active)
 
@@ -84,13 +87,13 @@ class ComponentActions(QtCore.QObject):
     # ------------------------------------------PULSAR-----------------------------------------------
 
     @staticmethod
-    def add_pulsar_node(index, c_id, c_name, c_type, c_time_on, c_pin, c_active):
+    def add_pulsar_node(index, c_id, c_name, c_type, c_time_on, c_pin, c_active, serial):
         _nameItem = componentStandardItems.StandardItemNameID(c_id, c_name)
         _timeTypeItem = componentStandardItems.StandardItemType(c_type)
         _timeOn = componentStandardItems.StandardItemTime(c_time_on)
         _timeOff = QtGui.QStandardItem('')
         _timeSpanItem = componentStandardItems.StandardItemPulsarTimeSpan()
-        _stateItem = componentStandardItems.StandardItemState()
+        _stateItem = componentStandardItems.StandardItemState(serial)
         _pinItem = QtGui.QStandardItem(c_pin)
         _activeItem = componentStandardItems.StandardItemActive(c_active)
 

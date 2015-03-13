@@ -43,6 +43,9 @@ class StandardItemType(QtGui.QStandardItem):
     def get_type(self):
         return self._type
 
+    def get_type_to_int(self):
+        return int(self._type)
+
 # -----------------------------------StandardItemDateTime---------------------------------------
 
 
@@ -162,14 +165,19 @@ class StandardItemClockDateTimeSpan(QtGui.QStandardItem):
 
 
 class StandardItemState(QtGui.QStandardItem):
-    def __init__(self):
+    def __init__(self, serial):
         super(StandardItemState, self).__init__()
+        self._generalAccess = GeneralAccess()
+        self._serial = serial
         self._icons = icons.Icons()
-        self._state = None
-        self.set_state(False)
+        self._state = False
+        self.setIcon(self._icons.get_state_icon(self._state))
 
     def set_state(self, state):
         self._state = state
+        a = self._generalAccess.get_type_to_int(self.index())
+        b = self._generalAccess.get_pin_to_int(self.index())
+        self._serial.write(1, a, b, state)
         self.setIcon(self._icons.get_state_icon(state))
 
     def is_on(self):
@@ -366,6 +374,14 @@ class GeneralAccess(QtCore.QObject):
         index.model().itemFromIndex(index.parent().child(index.row(), 3)).set_current_date()
 
     @staticmethod
+    def get_type(index):
+        return index.model().itemFromIndex(index.parent().child(index.row(), 1)).get_type()
+
+    @staticmethod
+    def get_type_to_int(index):
+        return index.model().itemFromIndex(index.parent().child(index.row(), 1)).get_type_to_int()
+
+    @staticmethod
     def get_date_time_on(index):
         # Get DateTime from 'Encendido' column
         return index.model().itemFromIndex(index.parent().child(index.row(), 2)).get_date_time()
@@ -382,6 +398,10 @@ class GeneralAccess(QtCore.QObject):
     @staticmethod
     def get_time_off(index):
         return index.model().itemFromIndex(index.parent().child(index.row(), 3)).get_time()
+
+    @staticmethod
+    def get_pin_to_int(index):
+        return index.model().itemFromIndex(index.parent().child(index.row(), 6)).data(QtCore.Qt.DisplayRole).toInt()[0]
 
     @staticmethod
     def set_state(index, state):

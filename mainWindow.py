@@ -1,6 +1,6 @@
 from PyQt4 import QtGui, QtCore
 from PyQt4.QtCore import pyqtSlot
-from misc import serialI2C, browser
+from misc import serialUSB, browser
 from tabs import tabComponents, tabSensors
 from messagebox import mainWindow
 from db import mainDB
@@ -9,13 +9,13 @@ from db import mainDB
 class MainWindow(QtGui.QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
-        self._serialI2C = serialI2C.SerialI2C()
         self._tabs = QtGui.QTabWidget(self)
         self._browser = browser.Browser()
+        self._serial = serialUSB.SerialUSB(self._browser)
 
         self._mainDB = mainDB.DataBase(self._browser)
-        self._tabComponents = tabComponents.TabComponents(self._mainDB, self._serialI2C, self._browser)
-        self._tabSensors = tabSensors.TabSensors(self._mainDB, self._serialI2C, self._browser)
+        self._tabComponents = tabComponents.TabComponents(self._mainDB, self._serial, self._browser)
+        self._tabSensors = tabSensors.TabSensors(self._mainDB, self._serial, self._browser)
         self._setup()
 
     def _setup(self):
