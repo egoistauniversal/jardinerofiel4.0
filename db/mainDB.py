@@ -17,8 +17,9 @@ class DataBase(QtCore.QObject):
         self._componentDB = componentDB.ComponentDB(self._browser, self._mainDBFile.fileName())
         self._sensorDB = sensorDB.SensorDB(self._browser, self._mainDBFile.fileName())
         self._controlDB = controlDB.ControlDB(self._browser, self._mainDBFile.fileName())
-        self._pinDBComponentControl = pinDB.ComponentControl(self._browser, self._mainDBFile.fileName())
-        self._pinDBSensorFertilizer = pinDB.SensorFertilizer(self._browser, self._mainDBFile.fileName())
+        self._pinDBDigital = pinDB.Digital(self._browser, self._mainDBFile.fileName())
+        self._pinDBSensorDigital = pinDB.SensorDigital(self._browser, self._mainDBFile.fileName())
+        self._pinDBSensorAnalog = pinDB.SensorAnalog(self._browser, self._mainDBFile.fileName())
         self._setup_database()
 
     def _setup_database(self):
@@ -28,8 +29,9 @@ class DataBase(QtCore.QObject):
             self._componentDB.create_table()
             self._sensorDB.create_table()
             self._controlDB.create_table()
-            self._pinDBComponentControl.create_table()
-            self._pinDBSensorFertilizer.create_table()
+            self._pinDBDigital.create_table()
+            self._pinDBSensorDigital.create_table()
+            self._pinDBSensorAnalog.create_table()
 
     # --------------------------------------------------READ STRUCTURE-----------------------------------------------
 
@@ -41,17 +43,20 @@ class DataBase(QtCore.QObject):
 
     # ---------------------------------GROUP TABLE-------------------------------------------
 
-    def group_node_table_name_exist(self, group_name):
-        return self._groupNodeDB.name_exist(group_name)
+    def group_node_table_insert_row(self, group_radio, group_name):
+        return self._groupNodeDB.insert_row(group_radio, group_name)
 
-    def group_node_table_insert_row(self, group_name):
-        return self._groupNodeDB.insert_row(group_name)
-
-    def group_node_table_modify_row(self, group_id, new_name):
-        self._groupNodeDB.modify_row(group_id, new_name)
+    def group_node_table_modify_row(self, group_id, group_radio, new_name):
+        self._groupNodeDB.modify_row(group_id, group_radio, new_name)
 
     def group_node_table_remove_row(self, group_id):
         self._groupNodeDB.remove_row(group_id)
+
+    def group_node_table_name_exist(self, group_name):
+        return self._groupNodeDB.name_exist(group_name)
+
+    def group_node_table_select_radio(self):
+        return self._groupNodeDB.select_used_radio()
 
     # ---------------------------------COMPONENTS TABLE-------------------------------------------
 
@@ -73,12 +78,10 @@ class DataBase(QtCore.QObject):
     def component_table_remove_row_by_group_id(self, group_id):
         self._componentDB.remove_row_by_group_id(group_id)
 
-    # ---------------------------------PINS_COMPONENT_CONTROL TABLE------------------------------------------
+    # ---------------------------------PINS_TABLE------------------------------------------
 
-    def pins_component_control_select_all(self):
-        return self._pinDBComponentControl.select_all_pins()
+    def pins_digital_table_select_pins(self):
+        return self._pinDBDigital.select_pins()
 
-    def pins_component_control_table_select_pin_used(self, group_id):
-        return self._pinDBComponentControl.select_used_pins(group_id)
-
-        # ---------------------------------PINS_SENSOR_FERTILIZER TABLE------------------------------------------
+    def pins_digital_table_select_used_pins(self, group_id):
+        return self._pinDBDigital.select_used_pins(group_id)

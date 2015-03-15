@@ -17,10 +17,10 @@ class ComponentDB(QtCore.QObject):
                                "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
                                "group_id INTEGER NOT NULL, "
                                "name TEXT NOT NULL, "
-                               "type TEXT NOT NULL, "
+                               "type INTEGER NOT NULL, "
                                "switch_on TEXT NOT NULL, "
                                "switch_off TEXT NOT NULL, "
-                               "pin TEXT NOT NULL, "
+                               "pin INTEGER NOT NULL, "
                                "active INTEGER NOT NULL, "
                                "enabled INTEGER NOT NULL)")
         except sqlite3.Error, e:
@@ -32,27 +32,24 @@ class ComponentDB(QtCore.QObject):
 
         group_rows = groupNodeDB.GroupNodeDB(self._browser, self._dbfile).select_all()
         for group_row in group_rows:
-            # group_row[0] = ID; group_row[1] = Name
-            groupActions.GroupActions.add(model, group_row[0], group_row[1])
+            # group_row[0] = ID; group_row[1] = Radio; group_row[2] = Name
+            groupActions.GroupActions.add(model, group_row[0], group_row[1], group_row[2])
             component_rows = self.select_row_by_group_id(group_row[0])
             for row in component_rows:
                 model_row_count = model.item(0, 0).rowCount() - 1
                 _index = model.item(0, 0).child(model_row_count, 0).index()
-                if row[2] == '1':
-                    componentActions.ComponentActions.add_clock_node(_index, row[0], row[1],
-                                                                     QtCore.QString(row[2]),
+                if row[2] == 1:
+                    componentActions.ComponentActions.add_clock_node(_index, row[0], row[1], row[2],
                                                                      QtCore.QString(row[3]),
                                                                      QtCore.QString(row[4]),
                                                                      row[5], row[6], serial)
-                elif row[2] == '2':
-                    componentActions.ComponentActions.add_timer_node(_index, row[0], row[1],
-                                                                     QtCore.QString(row[2]),
+                elif row[2] == 2:
+                    componentActions.ComponentActions.add_timer_node(_index, row[0], row[1], row[2],
                                                                      QtCore.QString(row[3]),
                                                                      QtCore.QString(row[4]),
                                                                      row[5], row[6], serial)
-                elif row[2] == '3':
-                    componentActions.ComponentActions.add_pulsar_node(_index, row[0], row[1],
-                                                                      QtCore.QString(row[2]),
+                elif row[2] == 3:
+                    componentActions.ComponentActions.add_pulsar_node(_index, row[0], row[1], row[2],
                                                                       QtCore.QString(row[3]),
                                                                       row[5], row[6], serial)
 

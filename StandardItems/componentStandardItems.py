@@ -16,7 +16,7 @@ class StandardItemNameID(QtGui.QStandardItem):
 
     def set_id(self, c_id):
         self._id = c_id
-        self.setToolTip('component_id=' + str(self._id))
+        self.setToolTip('ID=' + str(self._id))
 
     def get_name(self):
         return self._name
@@ -160,6 +160,22 @@ class StandardItemClockDateTimeSpan(QtGui.QStandardItem):
         # Time span between two QDateTime
         _secondsLeft = now_date_time.secsTo(my_date_time)
         self.setText(QtCore.QDateTime().fromTime_t(_secondsLeft).toString("HH:mm:ss"))
+
+#     -----------------------------------StandardItemState---------------------------------------
+
+
+class StandardItemPin(QtGui.QStandardItem):
+    def __init__(self, pin):
+        super(StandardItemPin, self).__init__()
+        self._pin = None
+        self.set_pin(pin)
+
+    def set_pin(self, pin):
+        self._pin = pin
+        self.setText(str(pin))
+
+    def get_pin(self):
+        return self._pin
 
 #     -----------------------------------StandardItemState---------------------------------------
 

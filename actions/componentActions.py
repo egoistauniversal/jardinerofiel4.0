@@ -15,7 +15,7 @@ class ComponentActions(QtCore.QObject):
         _dateTimeOff = componentStandardItems.StandardItemDateTime(c_time_off)
         _timeSpanItem = componentStandardItems.StandardItemClockDateTimeSpan()
         _stateItem = componentStandardItems.StandardItemState(serial)
-        _pinItem = QtGui.QStandardItem(c_pin)
+        _pinItem = componentStandardItems.StandardItemPin(c_pin)
         _activeItem = componentStandardItems.StandardItemActive(c_active)
 
         item = index.model().itemFromIndex(index)
@@ -35,7 +35,7 @@ class ComponentActions(QtCore.QObject):
         index.model().itemFromIndex(index.parent().child(index.row(), 0)).set_name(c_name)
         index.model().itemFromIndex(index.parent().child(index.row(), 2)).set_date_time_from_string(c_time_on)
         index.model().itemFromIndex(index.parent().child(index.row(), 3)).set_date_time_from_string(c_time_off)
-        index.model().itemFromIndex(index.parent().child(index.row(), 6)).setData(c_pin, QtCore.Qt.DisplayRole)
+        index.model().itemFromIndex(index.parent().child(index.row(), 6)).set_pin(c_pin)
 
         # if Active column is True then start timer
         if index.model().itemFromIndex(index.parent().child(index.row(), 7)).is_active():
@@ -53,7 +53,7 @@ class ComponentActions(QtCore.QObject):
         _timeOff = componentStandardItems.StandardItemTime(c_time_off)
         _timeSpanItem = componentStandardItems.StandardItemTimerTimeSpan()
         _stateItem = componentStandardItems.StandardItemState(serial)
-        _pinItem = QtGui.QStandardItem(c_pin)
+        _pinItem = componentStandardItems.StandardItemPin(c_pin)
         _activeItem = componentStandardItems.StandardItemActive(c_active)
 
         item = index.model().itemFromIndex(index)
@@ -69,13 +69,10 @@ class ComponentActions(QtCore.QObject):
         index.model().itemFromIndex(index.parent().child(index.row(), 0)).set_name(c_name)
         index.model().itemFromIndex(index.parent().child(index.row(), 2)).set_time(c_time_on)
         index.model().itemFromIndex(index.parent().child(index.row(), 3)).set_time(c_time_off)
-        index.model().itemFromIndex(index.parent().child(index.row(), 6)).setData(c_pin, QtCore.Qt.DisplayRole)
+        index.model().itemFromIndex(index.parent().child(index.row(), 6)).set_pin(c_pin)
 
         # if Active column is True then start timer
         if index.model().itemFromIndex(index.parent().child(index.row(), 7)).is_active():
-            # index.model().itemFromIndex(index.parent().child(index.row(), 4)).set_reset_option(reset)
-            # # Start count-down
-            # index.model().itemFromIndex(index.parent().child(index.row(), 4)).start_timer()
             if reset:
                 if reset == 1:
                     self.set_state(index, True)
@@ -94,7 +91,7 @@ class ComponentActions(QtCore.QObject):
         _timeOff = QtGui.QStandardItem('')
         _timeSpanItem = componentStandardItems.StandardItemPulsarTimeSpan()
         _stateItem = componentStandardItems.StandardItemState(serial)
-        _pinItem = QtGui.QStandardItem(c_pin)
+        _pinItem = componentStandardItems.StandardItemPin(c_pin)
         _activeItem = componentStandardItems.StandardItemActive(c_active)
 
         item = index.model().itemFromIndex(index)
@@ -104,7 +101,7 @@ class ComponentActions(QtCore.QObject):
     def modify_pulsar_node(self, index, c_name, c_time_on, c_pin, reset):
         index.model().itemFromIndex(index.parent().child(index.row(), 0)).set_name(c_name)
         index.model().itemFromIndex(index.parent().child(index.row(), 2)).set_time(c_time_on)
-        index.model().itemFromIndex(index.parent().child(index.row(), 6)).setData(c_pin, QtCore.Qt.DisplayRole)
+        index.model().itemFromIndex(index.parent().child(index.row(), 6)).set_pin(c_pin)
         if reset == 1:
             self.start_timer(index)
 
@@ -183,7 +180,7 @@ class ComponentActions(QtCore.QObject):
         return _list
 
     @staticmethod
-    def get_type_data(index):
+    def get_type(index):
         return index.model().itemFromIndex(index.parent().child(index.row(), 1)).get_type()
 
     @staticmethod

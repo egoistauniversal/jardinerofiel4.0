@@ -48,7 +48,7 @@ class SerialUSB(QtCore.QObject):
     def _detect_serial_connection(self):
         try:
             self._mySerial = serial.Serial(self._port, self._bauds, timeout=self._timeout)
-            time.sleep(1)
+            time.sleep(2)
             self._mySerial.flushInput()
             self._browser.print_normal_message('Connexion correcta con el arduino en ' + self._port)
 
@@ -59,7 +59,7 @@ class SerialUSB(QtCore.QObject):
     def write(self, tab, device_type, pin, state):
         self._payload.set(tab, device_type, pin, state)
         self._mySerial.write(
-            struct.pack('cbbbbc', self._header, self._payload.get_tab(), self._payload.get_device_type(),
+            struct.pack('cbbbbbc', self._header, 1, self._payload.get_tab(), self._payload.get_device_type(),
                         self._payload.get_pin(), self._payload.get_state(), self._footer))
 
     def read(self):

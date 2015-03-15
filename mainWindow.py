@@ -48,14 +48,14 @@ class MainWindow(QtGui.QMainWindow):
 
     # ----------------------------------SIGNALS-------------------------------------------------------
     @pyqtSlot(int, str)
-    def _on_insert_group(self, group_id, group_name):
-        self._tabComponents.add_group_node(group_id, group_name)
-        self._tabSensors.add_group_node(group_id, group_name)
+    def _on_insert_group(self, group_id, group_radio, group_name):
+        self._tabComponents.add_group_node(group_id, group_radio, group_name)
+        self._tabSensors.add_group_node(group_id, group_radio, group_name)
 
     @pyqtSlot(int, str)
-    def _on_modify_group(self, index, group_name):
-        self._tabComponents.modify_group_node(index, group_name)
-        self._tabSensors.modify_group_node(index, group_name)
+    def _on_modify_group(self, index, group_radio, group_name):
+        self._tabComponents.modify_group_node(index, group_radio, group_name)
+        self._tabSensors.modify_group_node(index, group_radio, group_name)
 
     @pyqtSlot(int)
     def _on_remove_group(self, index, group_id):

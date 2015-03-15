@@ -45,11 +45,11 @@ class TabSensors(QtGui.QWidget):
 
     # -------------------------------------------GROUP_NODE--------------------------------------------------------
 
-    def add_group_node(self, group_id, group_name):
-        groupActions.GroupActions().add(self._model, group_id, group_name)
+    def add_group_node(self, group_id, group_radio, group_name):
+        groupActions.GroupActions().add(self._model, group_id, group_radio, group_name)
 
-    def modify_group_node(self, index, group_name):
-        groupActions.GroupActions().modify(self._model, index, group_name)
+    def modify_group_node(self, index, group_radio, group_name):
+        groupActions.GroupActions().modify(self._model, index, group_radio, group_name)
 
     def remove_group_node(self, index, group_id):
         groupActions.GroupActions().remove(self._model, index)
